@@ -8,37 +8,37 @@ import time
 
 start = time.time()
   
-		        ###################################
-                # Fichier contenant le champ brut #
-                ###################################
+		################################
+                # File which contains raw data #
+                ################################
   
 filename = 'E:/New_Fields/Field138_combined_final_roughcal.fits'
 
 outname = filename.replace('combined_final_roughcal', 'traitement_1')
 outname2 = filename.replace('combined_final_roughcal', 'test')
 
-# Ouverture du fichier à l'aide d'astropy  
+# Open the file with Astropy 
 with fits.open(filename) as field :          
   
     print 'Fichier en cours de traitement' + str(filename) + '\n'
     print " "
     
-    # Lecture des données fits
+    # Data fits reading
     tbdata = field[1].data               
     
     print'Donnees lues'
     
-   	        #######################################################
-                    # Application du tri en fonction de divers paramètres #
-                    #######################################################
+   	            ####################################
+                    # Selection about some parameters  #
+                    ####################################
     
-    # Création d'un masque pour la condition CHI
+    # Mask creation to 'CHI SQUARE' condition
     mask1 = tbdata['CHI'] < 1.4	
     tbdata = tbdata[mask1]
      
     print "Tri effectué sur CHI"
     
-    # Création d'un 3e masque sur la condition SHARP (1/2)
+    # Mask creation to 'SHARP' condition
     mask2 = tbdata['SHARP'] > -0.35    
     tbdata = tbdata[mask2]
     
@@ -47,7 +47,7 @@ with fits.open(filename) as field :
     
     print "Tri effectué sur SHARP"
 
-    # Création d'un premier masque sur la condition PROB
+    # Mask creation to 'PROB' condition
     mask4 = tbdata['PROB'] > 0.01  
     tbdata = tbdata[mask4]
 
@@ -56,9 +56,9 @@ with fits.open(filename) as field :
     
     print "Tri effectué sur PROB"
     
-  		###################################################
-  		# Ecriture du résultat dans nouveau fichier .fits #
-  		###################################################
+  		########################################
+  		# Write the result in a new .fits file #
+  		########################################
     
        	
     hdu = fits.BinTableHDU(data=tbdata)
@@ -66,9 +66,9 @@ with fits.open(filename) as field :
     
     print "Ecriture du nouveau fichier traité"
     
-  		######################################################
-  		# Suppression des variables pour redonner la mémoire #
-  		######################################################
+  		###################################
+  		# Remove variables to free memory #
+  		###################################
     
     
     del tbdata
